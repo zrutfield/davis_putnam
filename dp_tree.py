@@ -95,9 +95,9 @@ class dp_tree:
            tmp = []
            for node in node_list:
                if(node.left !=None):
-                   node_a = pydot.Node("n"+str(node.uid), label=node.return_string(), shape="plaintext")
-                   node_b = pydot.Node("n"+str(node.left.uid), label=node.left.return_string(), shape="plaintext")
-                   node_c = pydot.Node("n"+str(node.right.uid),label=node.right.return_string(), shape="plaintext")
+                   node_a = pydot.Node("n"+str(node.uid), label=node.return_string(), shape="plaintext", fontsize="16")
+                   node_b = pydot.Node("n"+str(node.left.uid), label=node.left.return_string(), shape="plaintext", fontsize="16")
+                   node_c = pydot.Node("n"+str(node.right.uid),label=node.right.return_string(), shape="plaintext", fontsize="16")
                    graph.add_node(node_a)
                    graph.add_node(node_b)
                    graph.add_node(node_c)
