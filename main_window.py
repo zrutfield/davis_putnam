@@ -21,7 +21,7 @@ class main_window(Ui_MainWindow):
         statements = []
         premise_text = self.premiseBox.toPlainText()
         premise_text = premise_text.__str__()
-        print premise_text
+#        print premise_text
         premise_text_list = premise_text.split('\n')
         var_set = set()
         if(len(premise_text) > 0):
@@ -30,30 +30,30 @@ class main_window(Ui_MainWindow):
                 statements.append(logic_manip.parse_input(prem_stripped, var_set))
         conclusion_text = self.conclusionBox.toPlainText()
         conclusion_text = conclusion_text.__str__()
-        print conclusion_text
+#        print conclusion_text
         conclusion_text_list = conclusion_text.split('\n')
         for con in conclusion_text_list:
             con_stripped = con.replace(" ", "")
             statements.append(formula.Negation(logic_manip.parse_input(con_stripped, var_set)))
-        for state in statements:
-            state.print_obj()
-            print ""
+#        for state in statements:
+#            state.print_obj()
+#            print ""
         statements_cnf = []
         for state in statements:
             statements_cnf.append(logic_manip.convert(state)) 
-        for state in statements_cnf:
-            state.print_obj()
-            print ""
+#        for state in statements_cnf:
+#            state.print_obj()
+#            print ""
         disjuncts  = []
         for state in statements_cnf:
             disjuncts += logic_manip.make_disjuncts(state)
         clauses = logic_manip.make_clauses(disjuncts)
-        print clauses
-        print var_set
-        print ""
+#        print clauses
+#        print var_set
+#        print ""
         tree = dp_tree.dp_tree(clauses, var_set)
         tree.trim()
-        tree.print_tree()
+#        tree.print_tree()
         self.validityLabel.setText(tree.verify())
         scene = tree.show_tree()
         self.treeDrawView.setScene(scene)

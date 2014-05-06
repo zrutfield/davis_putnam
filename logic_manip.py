@@ -64,8 +64,8 @@ def parse_input(inp, var_set):
             return formula.Biconditional(parse_input(phi, var_set), parse_input(psi, var_set))
 
 def convert(form):
-    form.print_obj()
-    print ""
+#    form.print_obj()
+#    print ""
     if form.obj_type() == "Variable":
         return form
     if form.obj_type() == "Negation":
@@ -99,10 +99,10 @@ def convert(form):
         return convert(formula.Disjunction(disjunct_a, disjunct_b))
 
 def distribute_disjunction(phi, psi):
-    phi.print_obj()
-    print "<Phi"
-    psi.print_obj()
-    print"<Psi"
+#    phi.print_obj()
+#    print "<Phi"
+#    psi.print_obj()
+#    print"<Psi"
     statement_phi = break_down(phi)
     statement_psi = break_down(psi)
     conjunct_list = []
@@ -114,8 +114,8 @@ def distribute_disjunction(phi, psi):
     curr_disjunct = formula.Conjunction(conjunct_list[0], conjunct_list[1])
     for x in range(2, len(conjunct_list)):
         curr_disjunct = formula.Conjunction(curr_disjunct, conjunct_list[x])
-    curr_disjunct.print_obj()
-    print "< Result"
+#    curr_disjunct.print_obj()
+#    print "< Result"
     return curr_disjunct
 
 def break_down(form):

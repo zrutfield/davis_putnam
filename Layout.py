@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Layout.ui'
 #
-# Created: Sat May  3 16:52:24 2014
+# Created: Tue May  6 03:00:25 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -78,6 +78,9 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.premiseBox.sizePolicy().hasHeightForWidth())
         self.premiseBox.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.premiseBox.setFont(font)
         self.premiseBox.setObjectName(_fromUtf8("premiseBox"))
         self.verticalLayout_8.addWidget(self.premiseBox)
         self.label_2 = QtGui.QLabel(self.inputWidget)
@@ -94,6 +97,9 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.conclusionBox.sizePolicy().hasHeightForWidth())
         self.conclusionBox.setSizePolicy(sizePolicy)
+        font = QtGui.QFont()
+        font.setPointSize(15)
+        self.conclusionBox.setFont(font)
         self.conclusionBox.setObjectName(_fromUtf8("conclusionBox"))
         self.verticalLayout_8.addWidget(self.conclusionBox)
         self.horizontalLayout_2.addWidget(self.inputWidget)

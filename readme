@@ -1,54 +1,102 @@
 Zackary Rutfield
+
 Davis-Putnam Verification in Python
+
 Dependencies: PyQt4, Graphviz
 
+, pydot
+
 Each logic statement is stored as a tree (nested formula objects)
+
 The clauses formed from these statements are stored as a set of sets
+
 The printed out tree is represented as a tree
 
+
+
 Parsing Algorithm: If you have a single letter, store it as a variable. If
+
 you have the negation of a single letter, store it as a negation. Count the
+
 parentheses. Once an equal amount of right and left parentheses have been
+
 counted, look at the position in the string. If it is at the end, check if
+
 the entire statement is a negation. If it is create the negation of the
+
 inner structure. If it isn't, strip the first and last parentheses and try
+
 again. If you end in the middle of the string, break the string into two
+
 pieces at that position. There should be a connective at this position. Use
+
 that to determine what object to store the strings as. Recursively parse the
+
 two separated pieces. If there are no parentheses, break the statement apart
+
 at the first found connective and recursively parse the two created parts.
 
+
+
 Convert to CNF: Recursively apply rules of equivalence to convert into only
+
 negations, conjunctions, and disjunctions. Distribute over all of the 
 disjunctions.
 
+
 Separate disjuncts: Break the CNF statement into pieces at the conjunctions
+
 and add them to a list
 
-Create clauses: Separate the disjuncts that were found at the disjunctions.
+Create clauses: Separate the disjuncts that were found at the 
+disjunctions. 
 Add atomic variables or negations of atomic variables to the clause set
 
+
+
 Generate tree: Initialize a head node with the set of clauses and the set
+
 of variables. Pick an arbitrary variable from the set of variables. Create
+
 a level of children by removing any clause that has the variable in it and
+
 by removing the negation of the variable from every set. Repeat for the 
+
 negation of chosen variable. This creates a single level of the tree. Repeat
+
 this process for every node in this newly created level. Continue this
+
 process until there are no more variables to resolve.
 
+
+
 Trim the tree: If a node contains the empty set or is the empty set, remove
+
 the child nodes. If the node contains the empty set, mark it as closed.
+
 Otherwise, leave it open.
 
-Verify: Do a depth first search on the tree looking for open branches. If
-it finds an open branch, the tree has failed to close and the argument is
+Verify: Do a depth first search on the tree looking 
+for open branches. If
+it finds an open branch, the tree has failed to close and 
+the argument is
 invalid. Track the path taken to the head node to find the counterexample
+
 to the argument
 
+
+
 Bugs: Occasionally the tree fails to print despite the verification process
+
 completing. Sometimes the mouse press fails to release in a text box after
+
 the mouse button is released, so the text highlight continues to move.
 
-Future development: Extend for first order logic. Improve the GUI. Print out
-all the counterexamples to an invalid argument. Allow for verifying user 
+
+
+Future development: Extend for first order logic. Extend the code to work
+with the original logic statements. Improve the GUI. 
+Print out 
+all the counterexamples to an invalid argument. 
+Allow for verifying user 
 input as opposed to just generating the tree.

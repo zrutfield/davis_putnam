@@ -1,4 +1,6 @@
 from PyQt4 import QtCore, QtGui
+import os
+import pydot
 
 class dp_tree:
     def __init__(self, _clauses, _vars):
@@ -22,26 +24,26 @@ class dp_tree:
 
     def print_tree(self):
         level_list = [self.head]
-        print self.head.clauses
-        print ""
+#        print self.head.clauses
+#        print ""
         while len(level_list) > 0:
             tmp = []
             for x in level_list:
                 if(x.left != None):
-                    print x.left.clauses
+#                    print x.left.clauses
                     tmp.append(x.left)
                 if(x.right != None):
-                    print x.right.clauses
+#                    print x.right.clauses
                     tmp.append(x.right)
             level_list = tmp
-            print ""
+#            print ""
 
     def trim(self):
         level_list = [self.head]
         while len(level_list) > 0:
             tmp = []
             for x in level_list:
-                print x.clauses
+#                print x.clauses
                 if(frozenset([]) in x.clauses):
                     x.left = None
                     x.right = None
@@ -81,45 +83,35 @@ class dp_tree:
 
     def show_tree(self):
         scene = QtGui.QGraphicsScene()
-        p = QtCore.QProcess()
-        a = self.prepare_graph()
-        p.setProcessChannelMode(QtCore.QProcess.MergedChannels)
-        p.start("dot", QtCore.QStringList() << "-Tpng")
-        p.write(a)
-        data = QtCore.QByteArray()
-        pixmap = QtGui.QPixmap()
-        while(p.waitForReadyRead(100)):
-            data.append(p.readAll())
-        pixmap.loadFromData(data)
+        self.graph_walk()
+        pixmap = QtGui.QPixmap("graph.png")
         scene.addPixmap(pixmap)
-        p.close()
         return scene
 
-    def prepare_graph(self):
-        a = QtCore.QByteArray()
-        stream = QtCore.QTextStream(a, QtCore.QIODevice.ReadWrite)
-        stream << "graph " << "{" << "\n"
-        stream << "\tnode[ranksep=0.5,fontsize=13,margin=0,width=\"1\", height=\".2\", shape=plaintext];\n"
-        stream << "\tsubgraph cluster17{\n"
-        self.graph_walk(self.head, stream)
-        stream << "\t}\n" << "}" << "\n"
-        stream.flush()
-        return a
-
-    def graph_walk(self, p, stream):
-        if (p != None):
-            stream << "\t\t" << "n" << p.uid << "[label=\"" << p.return_string() << "\"];\n"
-        if(p.left != None):
-            stream << "\t\tn" << p.uid << "--" << "n" << p.left.uid << ";\n"
-            self.graph_walk(p.left, stream)
-        if(p.right != None):
-            stream << "\t\tn" << p.uid << "--" << "n" << p.right.uid << ";\n"
-            self.graph_walk(p.right, stream)
+    def graph_walk(self):
+       graph = pydot.Dot(graph_type="graph")
+       node_list = [self.head]
+       while len(node_list) > 0:
+           tmp = []
+           for node in node_list:
+               if(node.left !=None):
+                   node_a = pydot.Node("n"+str(node.uid), label=node.return_string(), shape="plaintext")
+                   node_b = pydot.Node("n"+str(node.left.uid), label=node.left.return_string(), shape="plaintext")
+                   node_c = pydot.Node("n"+str(node.right.uid),label=node.right.return_string(), shape="plaintext")
+                   graph.add_node(node_a)
+                   graph.add_node(node_b)
+                   graph.add_node(node_c)
+                   graph.add_edge(pydot.Edge(node_a,node_b))
+                   graph.add_edge(pydot.Edge(node_a,node_c))
+                   tmp.append(node.left)
+                   tmp.append(node.right)
+           node_list = tmp
+       graph.write_png("graph.png")
         
 class Node:
     def __init__(self, _clauses, _key, _uid):
         self.key = _key
-        print self.key
+#        print self.key
         self.clauses = _clauses.copy()
         self.left = None
         self.right = None
